@@ -1,0 +1,343 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"syscal",
+				"shared_syscall_page"
+			],
+			[
+				"$cooki",
+				"$cookieStore	AngularJS"
+			],
+			[
+				"ng-cl",
+				"ng-cloak	AngularJS"
+			],
+			[
+				"data",
+				"angular: data"
+			],
+			[
+				"qu",
+				"$scope.question"
+			],
+			[
+				"$route",
+				"angular: $routeParams"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/Makefile Improved/Make.sublime-build",
+	"command_palette":
+	{
+		"height": 54.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"vim",
+				"View: Toggle Menu"
+			],
+			[
+				"git qui",
+				"Git: Quick Add"
+			],
+			[
+				"git add",
+				"Git: Quick Add"
+			],
+			[
+				"git statu",
+				"Git: Status"
+			],
+			[
+				"package in",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Package Control: Install Package"
+			],
+			[
+				"angular",
+				"Set Syntax: HTML (Angular.js)"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"git quck",
+				"Git: Quick Commit"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"color",
+				"Color picker"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"package control",
+				"Package Control: Install Package"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git status",
+				"Git: Status"
+			]
+		],
+		"width": 530.0
+	},
+	"console":
+	{
+		"height": 241.0,
+		"history":
+		[
+			"r",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read()) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/saman/Programming/FlexSC/pilot-thread/Makefile",
+		"/home/saman/Programming/FlexSC/pilot-thread/include/spec.h",
+		"/home/saman/Programming/FlexSC/pilot-thread/src/consumer.c",
+		"/home/saman/Dropbox/Projects/Research/Programming/FlexSC/pilot/main/consumer.c",
+		"/home/saman/Dropbox/Projects/Research/Programming/FlexSC/pilot/main/header.h",
+		"/home/saman/Programming/storyteller_web/app/scripts/services/authenticationservice.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/app.js",
+		"/home/saman/Programming/storyteller_web/app/index.html",
+		"/home/saman/Programming/storyteller_web/app/views/story.html",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/story.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/main.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/services/config.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/logout.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/login.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/index.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/contribute.js",
+		"/home/saman/Programming/storyteller_web/app/views/index.html",
+		"/home/saman/Programming/storyteller_web/app/views/logout.html",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/signup.js",
+		"/home/saman/Programming/storyteller_web/app/scripts/controllers/addstory.js",
+		"/home/saman/Programming/storyteller_web/app/views/signup.html",
+		"/home/saman/Programming/storyteller_web/app/views/main.html",
+		"/home/saman/Programming/storyteller_web/app/views/addstory.html",
+		"/home/saman/Programming/storyteller_web/app/views/login.html",
+		"/home/saman/Programming/storyteller_web/app/views/contribute.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/index.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/aggregate.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/scatterChartService.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/barChartService.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/controllers/aggregate.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/pieChartService.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/answer.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/controllers/answer.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/security/facebook/facebook.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/dist/index.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/app.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/config/config.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/less/bs/lifestats.less",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/profile.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/search.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/login.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/index.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/controllers/index.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/views/logout.html",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/Page.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/services/lifestatsHttpInterceptor.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/controllers/search.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/scripts/directives/follow-btn.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+		"/home/saman/Programming/lifestats-main/workspace/LifeStatsFrontend2/bower.json"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"google",
+			"click",
+			"overall",
+			"overa",
+			"over",
+			"overall",
+			"log",
+			"$log",
+			".log",
+			"$scope.question",
+			"question",
+			"$scope.question",
+			"$scope.questions",
+			"barchart",
+			"unit",
+			"^(.*)$",
+			"myanswer",
+			"google",
+			"force",
+			"carouse",
+			"¬ ",
+			"position",
+			"analytics",
+			"analyticds",
+			"analytics-category=\"Navigation\"",
+			"analytics",
+			"create",
+			"$("
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"\"$1\",",
+			"",
+			"analytics-category=\"HomePage\"",
+			"analytics-category=\"NavigationBar\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 178.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-commit":
+	{
+		"height": 112.0
+	},
+	"project": "pilot-thread.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 240.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
