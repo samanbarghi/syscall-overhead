@@ -24,7 +24,7 @@ typedef struct  {
         unsigned int syscall; //4 bytes
         unsigned char num_args; //1 byte
         unsigned char status; //1 byte
-        long args[6]; //48 bytes
+        void* args[6]; //48 bytes
         long return_code; //8 byte
 } syscall_entry;
 

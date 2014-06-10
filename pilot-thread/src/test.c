@@ -8,7 +8,7 @@ int main(){
 	shim_init();
 
     int i;
-    for(i = 0; i < 100; ++i) {
+    for(i = 0; i < 50; ++i) {
     	/* code */
     	write(0, "Hello, world!\n", 14);
     	sleep(5);

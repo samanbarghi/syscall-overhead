@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 #include "syscall_struct.h"
 
 syscall_page *syscall_page_init(){
@@ -26,14 +27,14 @@ void syscall_page_enqueue(syscall_page *sp, syscall_entry *se){
     assert(sp != NULL);
     assert(se != NULL);
 
-    printf("mutex:%p, empty: %p, full: %p\n", sp->mutex, sp->empty, sp->full);
+    //printf("mutex:%p, empty: %p, full: %p\n", sp->mutex, sp->empty, sp->full);
     //acquire the lock    
     while (sp->numItem == SYSCALL_PAGE_SIZE) pthread_mutex_lock(sp->full);
     pthread_mutex_lock(sp->mutex);
     
     //Update the entry
-    (sp->entries[sp->head]).syscall = se->syscall;    
-    //update atomic variables
+    memcpy(&(sp->entries[sp->head]), se, sizeof(syscall_entry));  
+
     sp->head=(sp->head+1)%SYSCALL_PAGE_SIZE;
     sp->numItem++;
     pthread_mutex_unlock(sp->mutex);
@@ -46,7 +47,8 @@ void syscall_page_dequeue(syscall_page *sp, syscall_entry *se){
     pthread_mutex_lock(sp->mutex);
 
     //remove from queue
-    se->syscall = (sp->entries[sp->tail]).syscall;
+    memcpy(se, &(sp->entries[sp->tail]), sizeof(syscall_entry));
+
 
     sp->tail=(sp->tail + 1) % SYSCALL_PAGE_SIZE;
     sp->numItem--;
