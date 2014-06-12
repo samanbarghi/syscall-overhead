@@ -26,7 +26,7 @@ libshim.so: $(BUILD_DIR)/syscall_struct.o $(BUILD_DIR)/shim.o
 	$(CC) $(CFLAGS) $(INCLUDE) -fPIC -shared  -o $(BUILD_DIR)/libshim.so $^  -pthread -ldl
 
 test: $(SRCS_DIR)/test.c
-	$(CC) $(CFLAGS) $(INCLUDE) -L/home/saman/Programming/FlexSC/pilot-thread/bin $(SRCS_DIR)/test.c -o $(BUILD_DIR)/test -lshim
+	$(CC) $(CFLAGS) $(INCLUDE) -L/home/saman/Programming/FlexSC/pilot-thread/bin $(SRCS_DIR)/test.c -o $(BUILD_DIR)/test -lshim -pthread
 
 clean:
 	rm -rf bin/* include/*.o

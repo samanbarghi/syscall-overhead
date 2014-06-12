@@ -8,36 +8,30 @@
 #include <signal.h>
 #include "shim.h"
 
-ssize_t ready_queue[SYSCALL_PAGE_SIZE];
-int ready_queue_index; 
-
 void *server_thread(void* threadid){    
 
     while(1)
     {
         
         //Consumer
-        syscall_entry *se = malloc(sizeof(syscall_entry));
+        //syscall_entry *se = malloc(sizeof(syscall_entry));
 
-        syscall_page_dequeue(sp, se);       
+        syscall_entry *se = syscall_page_dequeue_request(sp);       
 
-        printf("[CONSUMER]--->syscall: %d\n", se->syscall);
+        //printf("[CONSUMER]--->syscall: %d\n", se->syscall);
         
         if(se->syscall == _SM_SYSCALL_WRITE){
             
                 int fd = *((int*) (se->args[0]));
                 const void* buf = (const void*) (se->args[1]);
-                size_t count = *((size_t*)(se->args[2]));   
+                size_t count = *((size_t*)(se->args[2]));                  
 
-                int index = *((int*) (se->args[3]));    
-
-                printf("[CONSUMER]--->arg[0]->%d\n", fd);
-                printf("[CONSUMER]--->arg[1]->%p\n", buf);
-                printf("[CONSUMER]--->arg[2]->%lu\n", count);
-                printf("[CONSUMER]--->arg[3]->%d\n", index);
-
-                ready_queue[index] = syscall(SYS_write, fd, buf, count);
-            
+                // printf("[CONSUMER]--->arg[0]->%d\n", fd);
+                // printf("[CONSUMER]--->arg[1]->%p\n", buf);
+                // printf("[CONSUMER]--->arg[2]->%lu\n", count);
+                // printf("[CONSUMER]--->arg[3]->%d\n", index);
+                //sleep(1);
+                update_entry(sp, se->index, syscall(SYS_write, fd, buf, count));            
         }          
 
         
@@ -49,13 +43,7 @@ void *server_thread(void* threadid){
 void shim_init(){
     //initializeing the sp 
    
-    sp = syscall_page_init();
-
-    //Remove this
-    int i = 0; 
-    for(i = 0; i < SYSCALL_PAGE_SIZE; i++)
-        ready_queue[i] = NULL;
-    ready_queue_index = 0;
+    sp = syscall_page_init();    
     
     //Creating the server pthread    
     int rc = pthread_create(&server_t, NULL, server_thread, NULL);
@@ -68,9 +56,13 @@ void shim_init(){
 
 }
 
-void sm_register(syscall_entry* entry){   
+long sm_register(syscall_entry* entry){   
      
-    syscall_page_enqueue(sp, entry);
+    //put the request in the queue
+    return syscall_page_enqueue_request(sp, entry);
+
+    //wait for the response
+
 }
 
 
@@ -81,12 +73,15 @@ static  ssize_t (*real_write)(int fd, const void *buf, size_t count) = NULL;
 
 ssize_t write(int fd, const void *buf, size_t count){
 
+    long return_code;
     real_write = dlsym(RTLD_NEXT, "write");
     syscall_entry *e = malloc(sizeof(syscall_entry));
 
-    e->syscall = _SM_SYSCALL_WRITE;
-    e->num_args = 3;
-    
+    e->syscall      = _SM_SYSCALL_WRITE;
+    e->num_args     = 3;
+    e->return_code  = 0;
+    e->status       = _SM_SUBMITTED;    
+    e->index        = 0;
 
     //copy the arguments
     e->args[0] = malloc(sizeof(int));    
@@ -95,31 +90,21 @@ ssize_t write(int fd, const void *buf, size_t count){
     memcpy(e->args[1], buf, count);
     e->args[2] = malloc(sizeof(size_t));
     *(size_t*)(e->args[2]) = count;
+    e->args[3] = NULL;
+    e->args[4] = NULL;
+    e->args[5] = NULL;    
 
-    int index = ready_queue_index;
-    //TODO: remove this and ready_queue
-    e->args[3] = malloc(sizeof(int)); 
-    *(int*)(e->args[3]) = index;   
-
-    ready_queue_index++;
-    e->status = _SM_SUBMITTED;
-
-    printf("[PRODUCER]--->arg[0]->%d\n", fd);
-    printf("[PRODUCER]--->arg[1]->%p\n", buf);    
-    printf("[PRODUCER]--->arg[2]->%lu\n", count);
-    printf("[PRODUCER]--->arg[3]->%lu\n", index);
+    // printf("[PRODUCER]--->arg[0]->%d\n", fd);
+    // printf("[PRODUCER]--->arg[1]->%p\n", buf);    
+    // printf("[PRODUCER]--->arg[2]->%lu\n", count);
+    // printf("[PRODUCER]--->arg[3]->%lu\n", index);
 
 
-
-
-    sm_register(e);
+    return_code = sm_register(e);
     free(e);
 
-    while(ready_queue[index] == NULL){
-        //wait
-    }
-
-    return ready_queue[index];
+    //printf("Return code: %ld\n", return_code);
+    return (ssize_t)return_code;
 }
 
 
