@@ -9,12 +9,14 @@
 #include "shim.h"
 
 void *server_thread(void* threadid){    
-
+      time_t t;
+     srand((unsigned) time(&t));
     while(1)
     {
         
         //Consumer
         //syscall_entry *se = malloc(sizeof(syscall_entry));
+
 
         syscall_entry *se = syscall_page_dequeue_request(sp);       
 
@@ -30,7 +32,7 @@ void *server_thread(void* threadid){
                 // printf("[CONSUMER]--->arg[1]->%p\n", buf);
                 // printf("[CONSUMER]--->arg[2]->%lu\n", count);
                 // printf("[CONSUMER]--->arg[3]->%d\n", index);
-                //sleep(1);
+                sleep(rand() %2);
                 update_entry(sp, se->index, syscall(SYS_write, fd, buf, count));            
         }          
 
