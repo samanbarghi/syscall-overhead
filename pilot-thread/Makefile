@@ -13,8 +13,8 @@ CCSOURCES=$(wildcard $(INCLUDE_DIR)/*.c $(SRCS_DIR)/*.c)
 CCOBJS=$(CCSOURCES:%.c=%.o)
 
 
-all:  syscall_struct shim libshim.so test 
-	
+all:  syscall_struct shim libshim.so test
+
 
 syscall_struct: $(INCLUDE_DIR)/syscall_struct.c
 	$(CC) $(CFLAGS) -fPIC -c $(INCLUDE_DIR)/syscall_struct.c -o $(BUILD_DIR)/syscall_struct.o
@@ -26,7 +26,7 @@ libshim.so: $(BUILD_DIR)/syscall_struct.o $(BUILD_DIR)/shim.o
 	$(CC) $(CFLAGS) $(INCLUDE) -fPIC -shared  -o $(BUILD_DIR)/libshim.so $^  -pthread -ldl
 
 test: $(SRCS_DIR)/test.c
-	$(CC) $(CFLAGS) $(INCLUDE) -L/home/saman/Programming/FlexSC/pilot-thread/bin $(SRCS_DIR)/test.c -o $(BUILD_DIR)/test -lshim -pthread
+	$(CC) $(CFLAGS) $(INCLUDE) -L/home/saman/Programming/research-flexsc/pilot-thread/bin $(SRCS_DIR)/test.c -o $(BUILD_DIR)/test -lshim -pthread
 
 clean:
 	rm -rf bin/* include/*.o

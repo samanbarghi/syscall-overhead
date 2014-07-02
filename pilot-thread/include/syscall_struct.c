@@ -102,7 +102,7 @@ syscall_entry *syscall_page_dequeue_request(syscall_page *sp){
     return se;
 }
 
-void *update_entry(syscall_page *sp, int index, long return_code){
+void update_entry(syscall_page *sp, int index, long return_code){
     
     pthread_mutex_lock(sp->mutex);
     //printf("dequeue index: %d\n", index);

@@ -48,6 +48,6 @@ typedef struct {
 syscall_page    *syscall_page_init();
 syscall_entry   *syscall_page_dequeue_request(syscall_page *sp);
 long            syscall_page_enqueue_request(syscall_page *sp, syscall_entry *se);
-void            *update_entry(syscall_page *sp, int index, long return_code);
+void            update_entry(syscall_page *sp, int index, long return_code);
 
 #endif /* _SM_SYSCALL_STRUCT_H */
