@@ -19,6 +19,10 @@
 #define _SM_SYSCALL_PREAD 17
 #define _SM_SYSCALL_PWRITE 18
 
+typedef int bool;
+#define true 1
+#define false 0
+
 typedef struct  {
         //unsigned char index;  //1 byte. for test purpose
         unsigned int syscall; //4 bytes

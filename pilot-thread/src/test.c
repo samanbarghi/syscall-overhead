@@ -29,8 +29,8 @@ void *test_thread(void *threadid)
     sprintf(out, "\nTID:%d", *tid);
 
     while((read_file = read(fd, buf, 30)) >0){
-    	write(0, out, 10);
-   		write(0, buf, 30);
+    	//write(0, out, 10);
+   		//write(0, buf, 30);
     }
     // printf("Thread\n");
 
@@ -42,10 +42,6 @@ void *test_thread(void *threadid)
 int main()
 {
 
-    //Initialize the shim lib
-    shim_init();
-
-	
 	int first = 1;
 	int second = 2;
 
@@ -56,5 +52,6 @@ int main()
 
     pthread_join(test1_t, NULL);
     pthread_join(test2_t, NULL);
+
     return 0;
 }

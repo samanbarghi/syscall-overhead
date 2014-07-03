@@ -14,7 +14,9 @@ static  ssize_t (*real_read)(int fd, void *buf, size_t count) = NULL;
 static  ssize_t (*real_pread)(int fd, void *buf, size_t count, off_t offset) = NULL;
 static int (*real_open)(const char *pathname, int flags);
 static int (*real_close)(int fd);
+FILE *log_fp;
 
+bool initialized = false;
 
 void *server_thread(void* threadid){    
       time_t t;
@@ -28,6 +30,7 @@ void *server_thread(void* threadid){
 
         syscall_entry *se = syscall_page_dequeue_request(sp);       
 
+        fprintf(log_fp, "System Call: %d\n", se->syscall);
         //printf("[CONSUMER]--->syscall: %d\n", se->syscall);
         
         if(se->syscall == _SM_SYSCALL_WRITE){
@@ -36,7 +39,6 @@ void *server_thread(void* threadid){
                 const void* buf = (const void*) (se->args[1]);
                 size_t count = *((size_t*)(se->args[2]));                  
 
-                sleep(rand() %2);
                 real_write = dlsym(RTLD_NEXT, "write");
                 update_entry(sp, se->index, real_write(fd, buf, count));
                 //update_entry(sp, se->index, syscall(SYS_write, fd, buf, count));            
@@ -89,6 +91,10 @@ void shim_init(){
     //initializeing the sp 
    
     sp = syscall_page_init();    
+
+    //Creating the log file
+    log_fp=fopen("/tmp/flexsc-sm.log", "w");
+
     
     //Creating the server pthread    
     int rc = pthread_create(&server_t, NULL, server_thread, NULL);
@@ -103,6 +109,14 @@ void shim_init(){
 
 long sm_register(syscall_entry* entry){   
      
+    if(initialized == false){
+        initialized = true;
+        shim_init();
+        //TODO: is there any other way to handle this? 
+    }
+
+    while(sp==NULL); //make sure sp is not NULL
+
     //put the request in the queue
     return syscall_page_enqueue_request(sp, entry);
 
