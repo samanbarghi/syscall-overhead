@@ -14,12 +14,13 @@ static  ssize_t (*real_read)(int fd, void *buf, size_t count) = NULL;
 static  ssize_t (*real_pread)(int fd, void *buf, size_t count, off_t offset) = NULL;
 static int (*real_open)(const char *pathname, int flags);
 static int (*real_close)(int fd);
+static int (*real_puts)(const char* str);
 FILE *log_fp;
 
 bool initialized = false;
 
 void *server_thread(void* threadid){    
-      time_t t;
+     time_t t;
      srand((unsigned) time(&t));
     while(1)
     {
@@ -81,6 +82,10 @@ void *server_thread(void* threadid){
             int fd = *((int*)(se->args[0]));
             real_close = dlsym(RTLD_NEXT, "close");
             update_entry(sp, se->index, real_close(fd));
+        }else if(se->syscall == _SM_SYSCALL_PUTS){
+            const char* str = (char*)(se->args[0]);
+            real_puts = dlsym(RTLD_NEXT, "puts");
+            update_entry(sp, se->index, real_puts(str));
         }
 
     }
@@ -159,14 +164,38 @@ ssize_t write(int fd, const void *buf, size_t count){
     return (ssize_t)return_code;
 }
 
+int puts(const char* str){
 
+    long return_code;
+    syscall_entry *e = malloc(sizeof(syscall_entry));
+
+    e->syscall      = _SM_SYSCALL_PUTS;
+    e->num_args     = 1;
+    e->return_code  = 0;
+    e->status       = _SM_SUBMITTED;    
+    e->index        = 0;
+
+    //copy the arguments
+    e->args[0] = (void*)str;    
+    e->args[1] = NULL;
+    e->args[2] = NULL;
+    e->args[3] = NULL;
+    e->args[4] = NULL;
+    e->args[5] = NULL;    
+
+    return_code = sm_register(e);
+    free(e);
+
+    //printf("Return code: %ld\n", return_code);
+    return (int)return_code;
+}
 ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset){
 
     long return_code;
     syscall_entry *e = malloc(sizeof(syscall_entry));
 
     e->syscall      = _SM_SYSCALL_PWRITE;
-    e->num_args     = 3;
+    e->num_args     = 4;
     e->return_code  = 0;
     e->status       = _SM_SUBMITTED;    
     e->index        = 0;
@@ -227,7 +256,7 @@ ssize_t pread (int fd, void *buf, size_t count, off_t offset){
     syscall_entry *e = malloc(sizeof(syscall_entry));
 
     e->syscall      = _SM_SYSCALL_PREAD;
-    e->num_args     = 3;
+    e->num_args     = 4;
     e->return_code  = 0;
     e->status       = _SM_SUBMITTED;    
     e->index        = 0;
@@ -286,7 +315,7 @@ int close(int fd){
     syscall_entry *e = malloc(sizeof(syscall_entry));
 
     e->syscall      = _SM_SYSCALL_CLOSE;
-    e->num_args     = 2;
+    e->num_args     = 1;
     e->return_code  = 0;
     e->status       = _SM_SUBMITTED;    
     e->index        = 0;

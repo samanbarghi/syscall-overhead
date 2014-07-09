@@ -18,6 +18,7 @@
 #define _SM_SYSCALL_CLOSE 3
 #define _SM_SYSCALL_PREAD 17
 #define _SM_SYSCALL_PWRITE 18
+#define _SM_SYSCALL_PUTS 19
 
 typedef int bool;
 #define true 1
