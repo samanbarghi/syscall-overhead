@@ -20,8 +20,15 @@ FILE *log_fp;
 bool initialized = false;
 
 void *server_thread(void* threadid){    
+     //int* oldstate = 0;
+     //int rc = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, oldstate);
      time_t t;
      srand((unsigned) time(&t));
+	pid_t tid;
+       tid = syscall(SYS_gettid);
+       char threadinfo[10];
+	sprintf(threadinfo, "Thread ID: %d\n", (int)tid);
+	fprintf(log_fp, threadinfo, 10);
     while(1)
     {
         
@@ -41,7 +48,9 @@ void *server_thread(void* threadid){
                 size_t count = *((size_t*)(se->args[2]));                  
 
                 real_write = dlsym(RTLD_NEXT, "write");
+		//fprintf(log_fp,(char*) se->args[1], count);
                 update_entry(sp, se->index, real_write(fd, buf, count));
+		//fprintf(log_fp, "\nWW\n", 12);
                 //update_entry(sp, se->index, syscall(SYS_write, fd, buf, count));            
         }else if(se->syscall == _SM_SYSCALL_PWRITE){
             
@@ -95,16 +104,22 @@ void *server_thread(void* threadid){
 void shim_init(){
     //initializeing the sp 
    
-    sp = syscall_page_init();    
-
-    //Creating the log file
-    log_fp=fopen("/tmp/flexsc-sm.log", "w");
+    if(!sp)
+	sp = syscall_page_init();    
+    if(!log_fp)
+	//Creating the log file
+	log_fp=fopen("/tmp/flexsc-sm.log", "w");
 
     
+     //fprintf(log_fp, "Initiaalized\n");
+    pthread_attr_t attr;
+    int rc;
+    rc = pthread_attr_init(&attr);
+    //rc = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED); 
     //Creating the server pthread    
-    int rc = pthread_create(&server_t, NULL, server_thread, NULL);
+    rc = pthread_create(&server_t, &attr, server_thread, NULL);
     if(rc){
-        printf("Error: return code from pthread_create() is %d\n", rc);
+        fprintf(log_fp, "Error: return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
     //TODO: place pthread_exit (destructor)
@@ -114,16 +129,24 @@ void shim_init(){
 
 long sm_register(syscall_entry* entry){   
      
-    if(initialized == false){
+    if(initialized == false ){
         initialized = true;
         shim_init();
         //TODO: is there any other way to handle this? 
     }
+    if(server_t != NULL)
+	{
+		if(pthread_kill(server_t, 0) != 0){
+			shim_init();
+		}
+	}
 
-    while(sp==NULL); //make sure sp is not NULL
+    //while(sp==NULL); //make sure sp is not NULL
 
     //put the request in the queue
-    return syscall_page_enqueue_request(sp, entry);
+    long result = syscall_page_enqueue_request(sp, entry);
+	 
+     return result;
 
     //wait for the response
 
