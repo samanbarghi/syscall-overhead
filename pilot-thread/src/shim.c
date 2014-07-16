@@ -135,6 +135,12 @@ long sm_register(syscall_entry* entry){
     }
     //while(sp==NULL); //make sure sp is not NULL
 
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    char threadinfo[10];
+    sprintf(threadinfo, "ThreadRegister ID: %d\n", (int)tid);
+    fprintf(log_fp, threadinfo, 10);
+
     //put the request in the queue
     long result = syscall_page_enqueue_request(sp, entry);
 	 
