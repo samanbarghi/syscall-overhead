@@ -33,7 +33,7 @@ void *test_thread(void *threadid)
 	write(0, buf, 30);
     while((read_file = read(fd, buf, 30)) >0){
     	//write(0, out, 10);
-    		write(output_fd, buf, 30);
+    	write(output_fd, buf, 30);
    		write(0, buf, 30);
     }
     // printf("Thread\n");
@@ -41,6 +41,7 @@ void *test_thread(void *threadid)
 
 
     close(fd);
+    sleep(1000000000);
     pthread_exit(NULL);
 
 }

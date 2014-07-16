@@ -15,18 +15,16 @@ static  ssize_t (*real_pread)(int fd, void *buf, size_t count, off_t offset) = N
 static int (*real_open)(const char *pathname, int flags);
 static int (*real_close)(int fd);
 static int (*real_puts)(const char* str);
-FILE *log_fp;
 
 bool initialized = false;
 
 void *server_thread(void* threadid){    
      //int* oldstate = 0;
      //int rc = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, oldstate);
-     time_t t;
-     srand((unsigned) time(&t));
+     
 	pid_t tid;
-       tid = syscall(SYS_gettid);
-       char threadinfo[10];
+    tid = syscall(SYS_gettid);
+    char threadinfo[10];
 	sprintf(threadinfo, "Thread ID: %d\n", (int)tid);
 	fprintf(log_fp, threadinfo, 10);
     while(1)
@@ -101,16 +99,10 @@ void *server_thread(void* threadid){
     pthread_exit(NULL);
 }
 
-void shim_init(){
-    //initializeing the sp 
-   
-    if(!sp)
-	sp = syscall_page_init();    
-    if(!log_fp)
-	//Creating the log file
-	log_fp=fopen("/tmp/flexsc-sm.log", "w");
 
-    
+
+void create_server_thread(){
+     
      //fprintf(log_fp, "Initiaalized\n");
     pthread_attr_t attr;
     int rc;
@@ -123,24 +115,24 @@ void shim_init(){
         exit(-1);
     }
     //TODO: place pthread_exit (destructor)
+}
 
-
+void shim_init(){
+    //initializeing the sp 
+   
+    sp = syscall_page_init();         
+    log_fp=fopen("/tmp/flexsc-sm.log", "w");    
+    create_server_thread();    
 }
 
 long sm_register(syscall_entry* entry){   
      
     if(initialized == false ){
-        initialized = true;
+        
         shim_init();
+        initialized = true;
         //TODO: is there any other way to handle this? 
     }
-    if(server_t != NULL)
-	{
-		if(pthread_kill(server_t, 0) != 0){
-			shim_init();
-		}
-	}
-
     //while(sp==NULL); //make sure sp is not NULL
 
     //put the request in the queue

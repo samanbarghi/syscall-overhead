@@ -8,5 +8,6 @@
 //shared memory
 syscall_page *sp;
 pthread_t server_t;
+FILE *log_fp;
 
 #endif /* _SHIM_H_ */

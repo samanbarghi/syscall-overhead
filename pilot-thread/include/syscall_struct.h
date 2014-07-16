@@ -4,9 +4,9 @@
 #ifndef _SM_SYSCALL_STRUCT_H_
 #define _SM_SYSCALL_STRUCT_H_
 
-#define SYSCALL_PAGE_SIZE 128
+#define SYSCALL_PAGE_SIZE 2048
 
-//Overrride values 
+//Overrride values
 #define _SM_FREE 0
 #define _SM_SUBMITTED 1
 #define _SM_DONE 2
@@ -32,12 +32,12 @@ typedef struct  {
         unsigned char status; //1 byte
         void* args[6]; //48 bytes
         long return_code; //8 byte
-        
+
 } syscall_entry;
 
 typedef struct {
         syscall_entry   entries[SYSCALL_PAGE_SIZE];
-        pthread_cond_t  *ready_cond[SYSCALL_PAGE_SIZE]; //condition variable for when the result is ready 
+        pthread_cond_t  *ready_cond[SYSCALL_PAGE_SIZE]; //condition variable for when the result is ready
 
         int             request_head,
                         request_tail, //response_head = request_tail-1
@@ -47,7 +47,7 @@ typedef struct {
                         num_responses;
         pthread_mutex_t *mutex;
         pthread_cond_t  *empty, *full;
-        
+
 } syscall_page;
 
 syscall_page    *syscall_page_init();
